@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import static java.util.Objects.isNull;
 
 public class Horse {
