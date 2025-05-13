@@ -1,0 +1,39 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{'yyyy-MM-dd HH:mm:ss,SSS'} %-5level %logger{36}: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>logs/hippodrome.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- каждый день новый файл: application.2025-05-13.log.gz -->
+            <fileNamePattern>logs/hippodrome.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!-- хранить, 7 последних дней -->
+            <maxHistory>7</maxHistory>
+            <!-- при сжатии -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <rolloverStrategy class="ch.qos.logback.core.rolling.DefaultRolloverStrategy">
+            <delete basePath="logs" maxDepth="1">
+                <!-- Удаляем только файлы, совпадающие с шаблоном -->
+                <ifFileName glob="hippodrome.*.log"/>
+                <!-- И только те, что старше 7 дней -->
+                <ifLastModified age="7 days"/>
+            </delete>
+        </rolloverStrategy>
+        <encoder>
+            <pattern>%d{'yyyy-MM-dd HH:mm:ss,SSS'} %-5level %logger{36}: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING"/>
+    </root>
+
+</configuration>
+
